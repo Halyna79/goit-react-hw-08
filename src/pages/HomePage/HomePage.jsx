@@ -9,7 +9,7 @@ function HomePage() {
                 component='h1'
                 textAlign='center'
             >
-                Contacts App
+                My Contacts
             </Typography>
         </Box>
     );

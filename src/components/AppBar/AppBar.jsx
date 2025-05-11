@@ -1,6 +1,5 @@
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
 import Container from '@mui/material/Container';
 import UserMenu from '../UserMenu/UserMenu';
 import { useSelector } from 'react-redux';
@@ -23,8 +22,6 @@ function AppBar() {
                   
                     sx={{ gap: { xs: 2, sm: 2.25, md: 2.5, lg: 2.75 } }}
                 >
-                    <MenuBookIcon />
-
                     <Navigation />
 
                     {isLogged && <UserMenu />}

@@ -1,30 +1,70 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import ContactForm from "./components/ContactForm/ContactForm";
-import SearchBox from "./components/SearchBox/SearchBox";
-import ContactList from "./components/ContactList/ContactList";
-import { fetchContact } from "./redux/contactsOps";
-import { selectError, selectLoading } from "./redux/contactsSlice";
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import Layout from './components/Layout/Layout';
+import { Route, Routes } from 'react-router';
+import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
+import ContactsPage from './pages/ContactsPage/ContactsPage';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute';
+import LoginPage from './pages/LoginPage/LoginPage';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import HomePage from './pages/HomePage/HomePage';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { refreshUser } from './redux/auth/operations';
 
 function App() {
   const dispatch = useDispatch();
-  const error = useSelector(selectError);
-  const loading = useSelector(selectLoading);
 
   useEffect(() => {
-    dispatch(fetchContact());
+    dispatch(refreshUser());
   }, []);
+
   return (
-    <div className="container">
-      <div className="phoneBook">
-        <h1>Phonebook</h1>
-        <ContactForm />
-        <SearchBox />
-      </div>
-      {loading && <p>Loading...</p>}
-      {error && <p>Oops! Something went wrong. Please try again.</p>}
-      <ContactList />
-    </div>
+    <>
+      <Layout>
+        <Routes>
+          <Route
+            path='/'
+            element={<HomePage />}
+          />
+
+          <Route
+            path='/contacts'
+            element={
+              <PrivateRoute>
+                <ContactsPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path='/login'
+            element={
+              <RestrictedRoute>
+                <LoginPage />
+              </RestrictedRoute>
+            }
+          />
+
+          <Route
+            path='/register'
+            element={
+              <RestrictedRoute>
+                <RegistrationPage />
+              </RestrictedRoute>
+            }
+          />
+
+          <Route
+            path='*'
+            element={<NotFoundPage />}
+          />
+        </Routes>
+      </Layout>
+    </>
   );
 }
 
